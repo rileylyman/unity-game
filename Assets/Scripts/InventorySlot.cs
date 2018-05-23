@@ -36,7 +36,9 @@ public class InventorySlot : MonoBehaviour {
     }
 
     public void OnRemoveButton() {
-        Inventory.instance.Remove(item, true);
+        if (GameManager.instance.playerEngine.IsPlayerGrounded()) {
+            Inventory.instance.Remove(item, true);
+        }
     }
 
     public void OnItemButton() {

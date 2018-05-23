@@ -9,7 +9,11 @@ public class GameManager : MonoBehaviour {
     public GameObject player;
 
     [HideInInspector]
+    public PlayerEngine playerEngine;
+
+    [HideInInspector]
     public Texture2D defaultCursor;
+
 
     private void Awake() {
         if (instance != null) {
@@ -17,6 +21,10 @@ public class GameManager : MonoBehaviour {
             return;
         }
         instance = this;
+    }
+
+    private void Start() { 
+        playerEngine = player.GetComponent<PlayerEngine>();
     }
 
     public Vector3 PlayerPosition() {

@@ -46,7 +46,7 @@ public class PhysicsObject : MonoBehaviour {
 
     public void Move(Vector2 movement, bool yMovement) {
         float distance = movement.magnitude;
-
+        Vector2 previousGroundNormal = groundNormal;
         if (distance > minMoveDistance) {
             int count = rb.Cast
                 (movement, contactFilter, hitBuffer, distance + shellRadius);
@@ -70,6 +70,7 @@ public class PhysicsObject : MonoBehaviour {
             }
         }
         rb.position += movement.normalized * distance;
+        
     }
 
 }

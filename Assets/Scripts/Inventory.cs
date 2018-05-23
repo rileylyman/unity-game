@@ -8,6 +8,9 @@ public class Inventory : MonoBehaviour {
 
     public static Inventory instance;
 
+    private Transform playerTransform;
+    private Collider2D playerCollider;
+
     public Canvas inventoryCanvas;
     private int capacity;
     private int numItems;
@@ -31,6 +34,8 @@ public class Inventory : MonoBehaviour {
 
     private void Start() {
         currentlyReplacing = null;
+        playerTransform = GetComponent<Transform>();
+        playerCollider = GetComponent<Collider2D>();
 
         inventoryCanvas.enabled = false;
         itemsLink = new LinkedList<GameObject>();
@@ -64,7 +69,11 @@ public class Inventory : MonoBehaviour {
                 isRemoved = true;
                 numItems--;
 
-                if (drop) { toRemove.Drop(); }  
+                if (drop) {
+                    
+                   
+                    toRemove.Drop();
+                }  
             }
         }
         if (isRemoved) {

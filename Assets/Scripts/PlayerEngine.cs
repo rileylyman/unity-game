@@ -134,7 +134,7 @@ public class PlayerEngine : PhysicsObject {
     }
 
     private void Jump() {
-        velocity += Vector2.up * jumpMagnitude;
+        velocity += (Vector2) transform.up * jumpMagnitude;
     }
 
     private bool IsPlayerImmobile() {
@@ -178,6 +178,10 @@ public class PlayerEngine : PhysicsObject {
         return isTryingToGrab && isObjHit;
     }
 
+    public Vector2 GetGroundNormal() {
+        return groundNormal;
+    }
+
     public bool IsPlayerTryingToGrab() { return isTryingToGrab; }
 
     public bool IsPlayerFlipped() { return isPlayerFlipped; }
@@ -189,4 +193,6 @@ public class PlayerEngine : PhysicsObject {
     public bool IsPlayerFalling() { return isPlayerFalling; }
 
     public bool IsPlayerJumping() { return isPlayerJumping; }
+
+    public bool IsPlayerGrounded() { return grounded; }
 }

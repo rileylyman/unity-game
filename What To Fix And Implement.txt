@@ -7,6 +7,8 @@ BUGS:
 	- When walking up slopes that are too sleep, the player flies up and/or assumes the jump animation (@004)
 	- When dragging around items in the inventory, the sprites go back to normal size, or, if CursorMode.Auto is on, they appear very pixelated. (@005)
 	- Dropped items do not fall to the floor (@006) [potental fix : keep x position as is. get y position of bottom of player and use that to set the y position of the sprite correctly]
+	- You can jump out of the grab animation (@007)
+	- Dropped objects float on sloped surfaces (@008)
 
 
 TO IMPLEMENT:
@@ -19,11 +21,14 @@ TO IMPLEMENT:
 	- Add Collectables [Done]
 	- Add Dropping support [Done]
 	- Make Movable Objects [Done]
+	- Drop objects to correct location (@006) [Done]
+	- Rotate dropped objects to correct orientation [Done]
+	
+	- Physics objects rotate on inclines
 
-	- Drop objects to correct location (@006) [In Progress]	
-
-	- Update Physics Engine (Objects rotate on angles, etc)
 	- Drag and Dropping
+	- Menu UI and Tooltips for items
+	- Saving and loading 
 	- Allow Animation Transitions and Triggered Events
 	- Make The Inventory persistent 
 	- Interactable class : When player "uses" them, the game state changes
@@ -31,5 +36,10 @@ TO IMPLEMENT:
 		- Interactables that are dependent on having completed other tasks
 	- Add Consumables (food, water)
 	- Add Equipables (Axe for collecting wood, Bow, etc.)
+	- Add the game objects to the game
+	- Add Music 
+	- Add Sound effects for different surfaces
+	- Audio
 	- Add State Events (If you are walking in the tundra, then you walk slower and use different animation)
 	- Change Scenes
+	- Update Physics Engine (@004)
