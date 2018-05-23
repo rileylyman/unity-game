@@ -70,8 +70,6 @@ public class Inventory : MonoBehaviour {
                 numItems--;
 
                 if (drop) {
-                    
-                   
                     toRemove.Drop();
                 }  
             }

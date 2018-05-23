@@ -70,7 +70,9 @@ public class PhysicsObject : MonoBehaviour {
             }
         }
         rb.position += movement.normalized * distance;
-        
+        //if (previousGroundNormal != groundNormal) {
+           // transform.up = groundNormal;
+        //}
     }
 
 }

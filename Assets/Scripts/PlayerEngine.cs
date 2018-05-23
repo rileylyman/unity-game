@@ -25,7 +25,7 @@ public class PlayerEngine : PhysicsObject {
     private static readonly float cameraZoomRate = 0.1f;
     private static readonly float cameraZoomTime = 0.3f;
     private static readonly float cameraMaxZoom = 2;
-    private static readonly float cameraDefaultZoom = 3;
+    private static readonly float cameraDefaultZoom = 5;
     private static readonly float cameraMinZoom = 5;
 
     private float grabDistance = 0.2f;
@@ -88,7 +88,9 @@ public class PlayerEngine : PhysicsObject {
         Vector2 cameraPosition = new Vector2(followCam.transform.position.x,
            followCam.transform.position.y);
 
-        cameraPosition = Vector2.SmoothDamp(cameraPosition, rb.position,
+        Vector2 requiredPosition = new Vector2(rb.position.x, cameraPosition.y);
+
+        cameraPosition = Vector2.SmoothDamp(cameraPosition, requiredPosition,
             ref currentCamVelocity, cameraSmoothTime, cameraMaxSpeed, Time.fixedDeltaTime);
         //cameraPosition = Vector2.Lerp(cameraPosition, rb.position, cameraLerpRate);
 

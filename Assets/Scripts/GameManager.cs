@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance;
     public GameObject player;
+    public Canvas menu;
 
     [HideInInspector]
     public PlayerEngine playerEngine;
@@ -21,10 +22,27 @@ public class GameManager : MonoBehaviour {
             return;
         }
         instance = this;
+        menu.enabled = false;
     }
 
-    private void Start() { 
+    private void Start() {
         playerEngine = player.GetComponent<PlayerEngine>();
+    }
+
+    private void Update() {
+        if (Input.GetButtonDown("Menu")) {
+            menu.enabled = !menu.enabled;
+            if (menu.enabled) { Pause(); }
+            else { Unpause(); }
+        }
+    }
+
+    private void Pause() {
+
+    }
+
+    private void Unpause() {
+
     }
 
     public Vector3 PlayerPosition() {
