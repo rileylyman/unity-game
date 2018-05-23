@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Animatable : MonoBehaviour {
 
-    protected const int animationWaitDuration = 5;
+    protected const int animationWaitDuration = 3;
     protected int currentWaitTime;
 
     protected Dictionary<int, List<Sprite>> animations;

@@ -32,6 +32,7 @@ public class Inventory : MonoBehaviour {
     private void Start() {
         currentlyReplacing = null;
 
+        inventoryCanvas.enabled = false;
         itemsLink = new LinkedList<GameObject>();
         slots = inventoryCanvas.GetComponentsInChildren<InventorySlot>();
         capacity = slots.Length;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAnimator : Animatable {
 
-    private PlayerCamMovement movementScript;
+    private PlayerEngine player;
 
     public int IDLE = 0;
     public int MOVE = 1;
@@ -23,7 +23,7 @@ public class PlayerAnimator : Animatable {
 
     protected override void Start() {
         base.Start();
-        movementScript = GetComponent<PlayerCamMovement>();
+        player = GetComponent<PlayerEngine>();
         
         useDuration = animations[USE_OBJECT].Count;
         currentUseStep = 0;
@@ -41,25 +41,25 @@ public class PlayerAnimator : Animatable {
 
     private void ResetFirstIterations() {
         if (!firstUseIteration && currentUseStep == 0) {
-            firstUseIteration = !movementScript.IsPlayerUsing();
+            firstUseIteration = !player.IsPlayerUsing();
         }
         if (!firstJumpIteration && currentJumpStep == 0) {
-            firstJumpIteration = !movementScript.IsPlayerJumping();
+            firstJumpIteration = !player.IsPlayerJumping();
         }
     }
 
     protected override int ChooseAnimation() {
-        if (CheckOneTimeAnimation(movementScript.IsPlayerJumping(), ref currentJumpStep, jumpDuration, ref firstJumpIteration)
-            && movementScript.IsPlayerFalling()) {
+        if (CheckOneTimeAnimation(player.IsPlayerJumping(), ref currentJumpStep, jumpDuration, ref firstJumpIteration)
+            && player.IsPlayerFalling()) {
             return JUMP;
         }
-        else if (movementScript.IsPlayerFalling()) {
+        else if (player.IsPlayerFalling()) {
             return FALL;
         }
-        else if (CheckOneTimeAnimation(movementScript.IsPlayerUsing(), ref currentUseStep, useDuration, ref firstUseIteration)) {         
+        else if (CheckOneTimeAnimation(player.IsPlayerUsing(), ref currentUseStep, useDuration, ref firstUseIteration)) {         
             return USE_OBJECT;
         }
-        else if (movementScript.IsPlayerMoving()) {
+        else if (player.IsPlayerMoving()) {
             return MOVE;
         }
         else {
@@ -76,7 +76,7 @@ public class PlayerAnimator : Animatable {
     }
 
     private void Flip() {
-        if (movementScript.IsPlayerFlipped()) { spr.flipX = true; } else { spr.flipX = false; }
+        if (player.IsPlayerFlipped()) { spr.flipX = true; } else { spr.flipX = false; }
     }
 
     public int GetJumpDuration() {

@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCamMovement : PhysicsObject {
+public class PlayerEngine : PhysicsObject {
 
     public Camera followCam;
-
     private PlayerAnimator playerAnimator;
+    private Transform playerTransform;
+    Collider2D playerCollider;
 
     private static readonly float playerDefaultSpeed = 4;
     private float playerSpeed;
@@ -20,23 +21,28 @@ public class PlayerCamMovement : PhysicsObject {
     //private static readonly float cameraLerpRate = 0.03f;
     private static readonly float cameraMaxSpeed = Mathf.Infinity;
 
-    private static readonly float cameraSmoothTime = 0.7f;
+    private static readonly float cameraSmoothTime = 0.3f;
     private static readonly float cameraZoomRate = 0.1f;
     private static readonly float cameraZoomTime = 0.3f;
     private static readonly float cameraMaxZoom = 2;
     private static readonly float cameraDefaultZoom = 3;
     private static readonly float cameraMinZoom = 5;
 
+    private float grabDistance = 0.2f;
+
     bool isPlayerFalling;
     bool isPlayerFlipped;
     bool isPlayerMoving;
     bool isPlayerUsing;
     bool isPlayerJumping;
+    bool isTryingToGrab;
 
     protected override void Start() {
         base.Start();
 
         playerAnimator = GetComponent<PlayerAnimator>();
+        playerTransform = GetComponent<Transform>();
+        playerCollider = GetComponent<Collider2D>();
 
         playerSpeed = playerDefaultSpeed;
         isPlayerMoving = false;
@@ -44,6 +50,7 @@ public class PlayerCamMovement : PhysicsObject {
         isPlayerFalling = false;
         isPlayerUsing = false;
         isPlayerJumping = false;
+        isTryingToGrab = false;
 
         currentCamVelocity = Vector2.zero;
 
@@ -53,7 +60,7 @@ public class PlayerCamMovement : PhysicsObject {
         requiredZoom = currentZoom;
     }
 
-    override protected void FixedUpdate() {
+    protected override void FixedUpdate() {
         base.FixedUpdate();
         UpdateTargetVelocity();
         isPlayerFalling = !grounded;
@@ -111,6 +118,12 @@ public class PlayerCamMovement : PhysicsObject {
         else if (Input.GetButtonUp("Use")) {
             isPlayerUsing = false;
         }
+        else if (Input.GetButtonDown("Grab")) {
+            isTryingToGrab = true;
+        }
+        else if (Input.GetButtonUp("Grab")) {
+            isTryingToGrab = false;
+        }
         if (Input.GetButtonDown("Jump") && grounded) {
             Jump();
             isPlayerJumping = true;
@@ -127,6 +140,45 @@ public class PlayerCamMovement : PhysicsObject {
     private bool IsPlayerImmobile() {
         return playerAnimator.IsPlayerImmobile();
     }
+
+    public Vector2 GetTargetVelocity() {
+        return targetVelocity;
+    }
+
+    RaycastHit2D[] resultsRight = new RaycastHit2D[1];
+    RaycastHit2D[] resultsLeft = new RaycastHit2D[1];
+
+    public bool IsGrabbing(GameObject movObj) {
+        if (!isTryingToGrab) { return false; }
+
+        resultsRight = new RaycastHit2D[1];
+        resultsLeft = new RaycastHit2D[1];
+
+        Vector2 transformR = playerTransform.right;
+        transformR += new Vector2(0, ((BoxCollider2D) playerCollider).size.y / 2); // player collider must be box collider
+
+        Vector2 transformL = -playerTransform.right;
+        transformL += new Vector2(0, ((BoxCollider2D) playerCollider).size.y / 2);
+
+        int countLeft = rb.Cast(transformR, contactFilter, resultsRight, grabDistance);
+        int countRight = rb.Cast(transformL, contactFilter, resultsLeft, grabDistance);
+
+        if (countLeft <= 0 && countRight <= 0) { return false; }
+        bool isObjHit = false;
+        for (int i = 0; i < 1; i++) {
+            if (resultsRight[i].collider != null && resultsRight[i].collider.gameObject == movObj) {
+                isObjHit = true;
+            }
+        }
+        for (int i = 0; i < 1; i++) {
+            if (resultsLeft[i].collider != null && resultsLeft[i].collider.gameObject == movObj) {
+                isObjHit = true;
+            }
+        }
+        return isTryingToGrab && isObjHit;
+    }
+
+    public bool IsPlayerTryingToGrab() { return isTryingToGrab; }
 
     public bool IsPlayerFlipped() { return isPlayerFlipped; }
 
