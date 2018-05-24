@@ -11,6 +11,10 @@ public class PlayerAnimator : Animatable {
     public int JUMP = 2;
     public int USE_OBJECT = 3;
     public int FALL = 2;
+    public int WINDY_MOVE = 1;
+    public int WINDY_IDLE = 0;
+    public int SNEAKING_IDLE = 0;
+    public int SNEAKING_MOVE = 1;
 
     private int useDuration;
     private int currentUseStep;
@@ -39,6 +43,27 @@ public class PlayerAnimator : Animatable {
         ResetFirstIterations();
     }
 
+    public void Toggle(string alternativeAnimation) {
+        if (alternativeAnimation.Equals("WINDY")) {
+            int temp = IDLE;
+            IDLE = WINDY_IDLE;
+            WINDY_IDLE = temp;
+
+            temp = MOVE;
+            MOVE = WINDY_MOVE;
+            WINDY_MOVE = temp;
+        }
+        else if (alternativeAnimation.Equals("SNEAK")) {
+            int temp = IDLE;
+            IDLE = WINDY_IDLE;
+            WINDY_IDLE = temp;
+
+            temp = MOVE;
+            MOVE = WINDY_MOVE;
+            WINDY_MOVE = temp;
+        }
+    }
+
     private void ResetFirstIterations() {
         if (!firstUseIteration && currentUseStep == 0) {
             firstUseIteration = !player.IsPlayerUsing();
@@ -49,15 +74,15 @@ public class PlayerAnimator : Animatable {
     }
 
     protected override int ChooseAnimation() {
-        if (CheckOneTimeAnimation(player.IsPlayerJumping(), ref currentJumpStep, jumpDuration, ref firstJumpIteration)
+        if (CheckOneTimeAnimation(player.IsPlayerUsing(), ref currentUseStep, useDuration, ref firstUseIteration)) {
+            return USE_OBJECT;
+        }
+        else if (CheckOneTimeAnimation(player.IsPlayerJumping(), ref currentJumpStep, jumpDuration, ref firstJumpIteration)
             && player.IsPlayerFalling()) {
             return JUMP;
         }
         else if (player.IsPlayerFalling()) {
             return FALL;
-        }
-        else if (CheckOneTimeAnimation(player.IsPlayerUsing(), ref currentUseStep, useDuration, ref firstUseIteration)) {         
-            return USE_OBJECT;
         }
         else if (player.IsPlayerMoving()) {
             return MOVE;

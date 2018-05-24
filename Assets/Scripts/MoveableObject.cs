@@ -12,7 +12,12 @@ public class MoveableObject : PhysicsObject {
     }
 
     protected override void FixedUpdate() {
-        if (player.IsGrabbing(this.gameObject)) { targetVelocity = player.GetTargetVelocity(); }
+        if (player.IsGrabbing(this.gameObject)) {
+            targetVelocity = player.GetTargetVelocity();
+            
+            
+            //transform.up = player.GetGroundNormal();
+        }
         else { targetVelocity = Vector2.zero; }
         base.FixedUpdate();
     }

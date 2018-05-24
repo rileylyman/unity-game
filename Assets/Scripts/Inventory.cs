@@ -60,7 +60,7 @@ public class Inventory : MonoBehaviour {
         UpdateInventoryGui();
     }
 
-    public void Remove(Item item, bool drop = true) {
+    public void Remove(Item item, bool drop) {
         bool isRemoved = false;
         for (int i = 0; i < items.Length; i++) {
             if (items[i] == item) {
@@ -138,5 +138,9 @@ public class Inventory : MonoBehaviour {
 
     public bool IsReplacing() {
         return currentlyReplacing != null;
+    }
+
+    public Item[] GetItemsArray() {
+        return items;
     }
 }

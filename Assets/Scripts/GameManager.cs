@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour {
     public Canvas menu;
 
     [HideInInspector]
+    public Animatable animationScript;
+
+    [HideInInspector]
     public PlayerEngine playerEngine;
 
     [HideInInspector]
@@ -26,6 +29,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
+        animationScript = player.GetComponent<Animatable>();
         playerEngine = player.GetComponent<PlayerEngine>();
     }
 
@@ -38,11 +42,13 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Pause() {
-
+        Time.timeScale = 0;
+        animationScript.animate = false;
     }
 
     private void Unpause() {
-
+        Time.timeScale = 1;
+        animationScript.animate = true;
     }
 
     public Vector3 PlayerPosition() {

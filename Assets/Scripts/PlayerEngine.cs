@@ -10,6 +10,8 @@ public class PlayerEngine : PhysicsObject {
     Collider2D playerCollider;
 
     private static readonly float playerDefaultSpeed = 4;
+    private static readonly float playerWindySpeed = 3;
+    private static readonly float playerSneakSpeed = 2;
     private float playerSpeed;
     public static readonly float jumpMagnitude = 5f;
 
@@ -114,7 +116,7 @@ public class PlayerEngine : PhysicsObject {
     }
 
     private void HandleInput() {
-        if (Input.GetButtonDown("Use")) {
+        if (Input.GetButtonDown("Use") && !isPlayerJumping) {
             isPlayerUsing = true;
         }
         else if (Input.GetButtonUp("Use")) {
@@ -126,7 +128,7 @@ public class PlayerEngine : PhysicsObject {
         else if (Input.GetButtonUp("Grab")) {
             isTryingToGrab = false;
         }
-        if (Input.GetButtonDown("Jump") && grounded) {
+        if (Input.GetButtonDown("Jump") && grounded && !isPlayerUsing) {
             Jump();
             isPlayerJumping = true;
         }
@@ -135,8 +137,29 @@ public class PlayerEngine : PhysicsObject {
         }
     }
 
-    private void Jump() {
+    public void Jump() {
         velocity += (Vector2) transform.up * jumpMagnitude;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision) {
+        if (collision.gameObject.tag == "WINDY") {
+            playerSpeed = playerWindySpeed;
+            playerAnimator.Toggle("WINDY");
+        } else if (collision.gameObject.tag == "SNEAK") {
+            playerSpeed = playerSneakSpeed;
+            playerAnimator.Toggle("SNEAK");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision) {
+        if (collision.gameObject.tag == "WINDY") {
+            playerSpeed = playerDefaultSpeed;
+            playerAnimator.Toggle("WINDY");
+        }
+        else if (collision.gameObject.tag == "SNEAK") {
+            playerSpeed = playerDefaultSpeed;
+            playerAnimator.Toggle("SNEAK");
+        }
     }
 
     private bool IsPlayerImmobile() {

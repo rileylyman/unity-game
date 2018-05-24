@@ -28,7 +28,7 @@ public class Parallax : MonoBehaviour {
             int layer = i + 1;
             float dx = currentPosition.x - previousPosition.x;
             Vector2 pos = layers[i].position;
-            pos.x -= dx * 1 / layer / layer * shiftSpeed;
+            pos.x -= dx / (layer) * shiftSpeed;
             layers[i].position = pos;
         }
         previousPosition = currentPosition;

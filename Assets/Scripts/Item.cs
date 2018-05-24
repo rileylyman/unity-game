@@ -55,5 +55,8 @@ public class Item : ScriptableObject {
         }
         go.GetComponent<Transform>().position = dropLocation;
         go.GetComponent<Transform>().up = groundNormal;
+
+        go.GetComponent<SpriteRenderer>().sortingOrder = 
+            GameManager.instance.player.GetComponent<SpriteRenderer>().sortingOrder + 1;
     }
 }

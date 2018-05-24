@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class Animatable : MonoBehaviour {
 
+    [HideInInspector]
+    public bool animate;
+
     protected const int animationWaitDuration = 3;
     protected int currentWaitTime;
 
@@ -18,6 +21,7 @@ public abstract class Animatable : MonoBehaviour {
 
     protected virtual void Start() {
         currentWaitTime = 0;
+        animate = true;
 
         spr = GetComponent<SpriteRenderer>();
         currentIndex = 0;
@@ -27,13 +31,15 @@ public abstract class Animatable : MonoBehaviour {
     }
 
     protected virtual void Update() {
-        int anim = ChooseAnimation();
-        if (anim != currentAnimation) { 
-            currentAnimation = anim;
-            currentIndex = 0;
-            SetAllTimeCountersToZero();
+        if (animate) {
+            int anim = ChooseAnimation();
+            if (anim != currentAnimation) {
+                currentAnimation = anim;
+                currentIndex = 0;
+                SetAllTimeCountersToZero();
+            }
+            RunAnimation(currentAnimation);
         }
-        RunAnimation(currentAnimation);
     }
 
     protected abstract int ChooseAnimation();
