@@ -1,15 +1,18 @@
 	
 BUGS:
+	Fixed:
+	- Dropped items do not fall to the floor (@006) 
+	- You can jump out of the grab animation (@007) (@009) [was duplicated]
+	- Dropped objects float on sloped surfaces (@008) 
 
+	Active:
 	- Player Clips forwards sometimes while running at full speed (@001)
 	- No transition animation functionality, i.e. when jumping it immediately defaults to idle when you land (@002)
 	- The camera does not track the player properly in the y direction when they fall too fast  (@003)
 	- When walking up slopes that are too sleep, the player flies up and/or assumes the jump animation (@004)
 	- When dragging around items in the inventory, the sprites go back to normal size, or, if CursorMode.Auto is on, they appear very pixelated. (@005)
-	- Dropped items do not fall to the floor (@006) [potental fix : keep x position as is. get y position of bottom of player and use that to set the y position of the sprite correctly]
-	- You can jump out of the grab animation (@007)
-	- Dropped objects float on sloped surfaces (@008)
-	- You can jump during the pick-up animation (@009)
+	- Duplicate item confict issues: they misbehave in inventory and in itemPickup script (@010)
+	- Movable objects sometime stop on incline changes, and you can lose them on slopes (@011)
 
 
 TO IMPLEMENT:
@@ -24,22 +27,24 @@ TO IMPLEMENT:
 	- Make Movable Objects [Done]
 	- Drop objects to correct location (@006) [Done]
 	- Rotate dropped objects to correct orientation [Done]
-	- Add State Events (Windy, sneaking, etc.) [Done]
+	- Add State Events / Triggers (Windy, sneaking, etc.) [Done]
 	- Interactables [Done]
-	
+	- Tooltips for items [Done]
+
 	- Physics objects rotate on inclines [In Progress]
 	- Menu UI [In Progress]
-	- Tooltips for items [In Progress]
 	- Saving and loading [In Progress]
+	- Add tree chop Interactable [In progress]
+	- Move the Trigger State stuff out of PlayerEngine [In Progress]
 
 	- Drag and Dropping
-	- Allow Animation Transitions and Triggered Events
+	- Allow Animation Transitions and Triggered Animations
 	- Make The Inventory persistent 
 	- Add Consumables (food, water)
-	- Add Equipables (Axe for collecting wood, Bow, etc.)
-	- Add tree chop Interactable
+	- Add Equipables (Axe for collecting wood, Bow, etc.) 
 	- Add the game objects to the game
 	- Add Music 
+	- Script camera Y-axis movements
 	- Add Sound effects for different surfaces
 	- Audio
 	- Change Scenes

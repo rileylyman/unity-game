@@ -9,6 +9,10 @@ public class GameManager : MonoBehaviour {
     public GameObject player;
     public Canvas menu;
 
+    public Canvas tooltipCanvas;
+    public Transform tooltipPosition;
+    public Transform tooltipDescriptionPosition;
+
     [HideInInspector]
     public Animatable animationScript;
 
@@ -29,6 +33,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Start() {
+        tooltipCanvas.enabled = false;
         animationScript = player.GetComponent<Animatable>();
         playerEngine = player.GetComponent<PlayerEngine>();
     }
@@ -44,11 +49,13 @@ public class GameManager : MonoBehaviour {
     private void Pause() {
         Time.timeScale = 0;
         animationScript.animate = false;
+        Inventory.instance.Pause();
     }
 
     private void Unpause() {
         Time.timeScale = 1;
         animationScript.animate = true;
+        Inventory.instance.Unpause();
     }
 
     public Vector3 PlayerPosition() {

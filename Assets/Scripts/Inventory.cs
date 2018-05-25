@@ -143,4 +143,12 @@ public class Inventory : MonoBehaviour {
     public Item[] GetItemsArray() {
         return items;
     }
+
+    public void Pause() {
+        inventoryCanvas.GetComponent<CanvasGroup>().blocksRaycasts = false;
+    }
+
+    public void Unpause() {
+        inventoryCanvas.GetComponent<CanvasGroup>().blocksRaycasts = true;
+    }
 }

@@ -42,6 +42,7 @@ public class InventorySlot : MonoBehaviour {
     }
 
     public void OnItemButton() {
+        GameManager.instance.tooltipCanvas.enabled = false;
         if (Inventory.instance.IsReplacing() && isFilled) {
             if (icon == null) {
                 GameManager.instance.ResetMouseGraphic();
@@ -65,7 +66,22 @@ public class InventorySlot : MonoBehaviour {
             Inventory.instance.SetReplacing(item);
             Inventory.instance.Remove(item, false);
         }
-       
+    }
+
+    public void TooltipEnter() {
+        if (item != null) {
+            GameManager.instance.tooltipCanvas.enabled = true;
+            GameManager.instance.tooltipPosition.position = Input.mousePosition
+                + new Vector3(30, -30);
+            GameManager.instance.tooltipPosition.GetComponentInChildren<Text>().text = item.name;
+
+            GameManager.instance.tooltipDescriptionPosition.GetComponentInChildren<Text>().text = item.description;
+        }
+        
+    }
+
+    public void TooltipExit() {
+        GameManager.instance.tooltipCanvas.enabled = false;
     }
 
     public bool IsFull() {
